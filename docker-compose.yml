@@ -2,20 +2,23 @@ version: "3.9"
 
 services:
   config-server:
-    build: ./config-server
-    container_name: config-server
+    build:
+      context: ./config-service
+    container_name: config-service
     ports:
       - "8888:8888"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+    volumes:
+      - ./healthy_habits_config:/config-repo
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8888/actuator/health"]
+      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
       interval: 10s
       timeout: 5s
       retries: 5
 
   eureka-server:
-    build: ./eureka-server
+    build: ./eureka-service
     container_name: eureka-server
     ports:
       - "8761:8761"
