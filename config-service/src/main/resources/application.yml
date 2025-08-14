@@ -1,0 +1,23 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: file:///C:/Users/maida/OneDrive/Escritorio/Proyectos/healthy_habits_config
+          clone-on-start: true
+          default-label: main
+          search-paths:
+            - habit-service
+            - tracker-service
+            - user-service
+            - api-gateway
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
