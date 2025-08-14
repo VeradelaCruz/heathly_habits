@@ -1,6 +1,9 @@
 package com.example.user_service.service;
 
 
+import com.example.user_service.exception.DuplicateUserException;
+import com.example.user_service.exception.UserNotFoundByNameException;
+import com.example.user_service.exception.UserNotFoundException;
 import com.example.user_service.models.User;
 import com.example.user_service.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
