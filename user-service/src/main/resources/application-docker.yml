@@ -1,30 +1,11 @@
 spring:
-  application:
-    name: habit-service
-
-  config:
-    import: optional:configserver:http://config-server:8888
-
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/habit_db
-
   kafka:
     bootstrap-servers: kafka:9092
     consumer:
-      group-id: habit-group   # 👈 cambialo en cada microservicio
+      group-id: user-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-
-server:
-  port: 8081
-
-eureka:
-  client:
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-

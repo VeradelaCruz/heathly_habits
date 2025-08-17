@@ -1,13 +1,24 @@
 spring:
   application:
     name: tracker-service
+
   config:
-    import: "configserver:http://localhost:8888"
+    import: optional:configserver:http://config-server:8888
 
   data:
     mongodb:
       uri: mongodb://localhost:27017/tracker_db
-      database: tracker_db
+
+  kafka:
+    bootstrap-servers: kafka:9092
+    consumer:
+      group-id: tracker-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
 server:
   port: 8082
@@ -16,3 +27,4 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
+
