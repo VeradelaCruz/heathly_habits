@@ -92,6 +92,8 @@
             <artifactId>reactor-kafka</artifactId>
         </dependency>
 	</dependencies>
+
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

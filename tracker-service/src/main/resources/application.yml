@@ -10,7 +10,7 @@ spring:
       uri: mongodb://localhost:27017/tracker_db
 
   kafka:
-    bootstrap-servers: kafka:9092
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092}
     consumer:
       group-id: tracker-group
       auto-offset-reset: earliest

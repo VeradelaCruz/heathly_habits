@@ -10,7 +10,7 @@ import org.springframework.kafka.core.KafkaAdmin;
 import java.util.HashMap;
 import java.util.Map;
 
-// 🏷 KafkaTopicConfig (o KafkaAdminConfig)
+// 🏷 KafkaTopicConfig
 // Qué es: Clase de configuración (@Configuration) que administra la infraestructura de Kafka.
 // Qué hace: Crea automáticamente topics, define particiones y réplicas si no existen.
 // Nota: No envía mensajes, solo asegura que los topics estén listos para usarse.
@@ -27,7 +27,7 @@ public class KafkaTopicConfig {
     }
 
     // ✅ Este bean crea el topic "habit-created" al iniciar la app.
-    //    Define 3 particiones y 1 réplica (puedes ajustarlo según necesidades).
+    //    Define 3 particiones y 1 réplica.
     @Bean
     public NewTopic habitCreatedTopic() {
         return new NewTopic("habit-created", 3, (short) 1);

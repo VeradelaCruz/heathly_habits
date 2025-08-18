@@ -1,8 +1,7 @@
-package com.example.habit_service.service.kafka;
+package com.example.tracker_service.service.kafka;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +16,7 @@ import java.util.Map;
 
 @Configuration
 @Slf4j
-// ⚡ Configura cómo tu aplicación recibe mensajes de Kafka.
 public class KafkaConsumerConfig {
-
     // 🛠 Bean principal que configura al consumidor de Kafka:
     // Le indica al broker qué topic escuchar, en qué grupo de consumidores está,
     // cómo deserializar las claves y valores, y desde qué offset empezar.
@@ -27,13 +24,13 @@ public class KafkaConsumerConfig {
     public ReceiverOptions<String, String> receiverOptions() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka:9092"); // 🌐 Dirección del broker
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "habit-group"); // 👥 Grupo de consumidores
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "tracker-group"); // 👥 Grupo de consumidores
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class); // 🔑 Cómo leer la key
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class); // 📩 Cómo leer el valor
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest"); // ⏪ Desde el primer mensaje si no hay offset guardado
 
         return ReceiverOptions.<String, String>create(props)
-                .subscription(Collections.singleton("habit-created")); // 📝 Topic a escuchar
+                .subscription(Collections.singleton("tracker-created")); // 📝 Topic a escuchar
     }
 
     // 🔔 Bean que crea un listener reactivo de Kafka
@@ -60,7 +57,4 @@ public class KafkaConsumerConfig {
                 })
                 .doOnError(ex -> log.error("⚠️ Error al recibir mensaje", ex));
     }
-
 }
-
-

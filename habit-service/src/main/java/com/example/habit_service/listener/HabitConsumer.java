@@ -11,7 +11,7 @@ import reactor.kafka.receiver.ReceiverRecord;
 @Component
 public class HabitConsumer {
 
-    // 🔹 Constructor donde inyectamos el listener reactivo (Flux de ReceiverRecord)
+    // 🔹 Constructor donde inyectamos el listener reactivo
     public HabitConsumer(Flux<ReceiverRecord<String, Habit>> kafkaListener) {
 
         // 🔹 Subscribimos al flujo de mensajes de Kafka
