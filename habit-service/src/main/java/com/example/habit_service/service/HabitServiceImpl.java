@@ -2,29 +2,38 @@ package com.example.habit_service.service;
 
 
 import com.example.habit_service.client.UserClientService;
+import com.example.habit_service.config.HabitProducer;
 import com.example.habit_service.dtos.HabitWithUserDTO;
 import com.example.habit_service.exception.CategoryNotFoundException;
 import com.example.habit_service.exception.HabitNotFoundException;
 import com.example.habit_service.exception.UserNotFoundException;
 import com.example.habit_service.models.Habit;
 import com.example.habit_service.repository.HabitRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class HabitServiceImpl implements HabitService{
 
     private final HabitRepository habitRepository;
     private final UserClientService userClientService;
+    private final KafkaTemplate<String, Habit> kafkaTemplate;
 
 
     @Override
     public Mono<Habit> createHabit(Habit habit) {
-        return habitRepository.save(habit);
+        return habitRepository.save(habit)
+                .doOnSuccess(savedHabit -> kafkaTemplate.send("habits-topic", savedHabit));
     }
+
 
     @Override
     public Flux<Habit> getAllHabits() {

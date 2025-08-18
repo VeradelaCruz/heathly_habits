@@ -10,15 +10,15 @@ spring:
       uri: mongodb://localhost:27017/habit_db
 
   kafka:
-    bootstrap-servers: kafka:9092
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:kafka:9092} # usa kafka:9092 en Docker, localhost:9092 si no hay variable
     consumer:
-      group-id: habit-group   # 👈 cambialo en cada microservicio
+      group-id: habit-group  # cambia en cada microservicio
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 
 server:
   port: 8081
